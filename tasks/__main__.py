@@ -9,7 +9,7 @@ tasks = [GitInitTask()]
 
 
 def main():
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.DEBUG)
 
     for task in tasks:
         task.run()
