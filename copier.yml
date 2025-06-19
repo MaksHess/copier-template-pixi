@@ -76,6 +76,7 @@ add_autobump_workflow:
 _tasks:
   - "pixi info"
   - "echo hi"
+  - "pwd"
   #- ["{{ _copier_python }}", -I, -c, "import sys;", 'print("{{ _copier_conf }}")']
   #- ["{{ _copier_python }}", -I, -c, "import sys;", 'sys.path.insert(0, r"{{ _copier_conf.src_path }}");', "import runpy;", "runpy.run_module('task', run_name='__main__')"]
 #_tasks:
