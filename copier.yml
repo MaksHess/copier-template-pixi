@@ -7,6 +7,7 @@ _min_copier_version: "9.3.1"
 project_slug:
   type: str
   help: What is your project slug (i.e. pypi package name)?
+  default: copier-pixi
   validator: >-
     {% if '_' in project_slug or ' ' in project_slug or '.' in project_slug %}
     The project slug should not contain underscores, spaces or dots.
@@ -19,18 +20,22 @@ project_slug_snake_case:
 
 project_short_description:
   type: str
+  default: ''
   help: Enter a short description.
 
 github_user:
   type: str
+  default: MaksHess
   help: What is your GitHub username (used for CODEOWNERS)?
 
 author_name:
   type: str
+  default: Max
   help: What is your name (used for package author)?
 
 author_email:
   type: str
+  default: ''
   help: What is your email (used for package author)?
 
 github_url:
@@ -51,7 +56,7 @@ minimal_python_version:
     - py311
     - py312
     - py313
-  default: py39
+  default: py311
 
 minimal_python_version_sortable:
   type: str
