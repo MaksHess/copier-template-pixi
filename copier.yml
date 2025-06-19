@@ -74,7 +74,7 @@ add_autobump_workflow:
   default: true
 
 _tasks:
-  - '"{{ _copier_python }}" -I -c print("{{ _copier_conf }}")'
+  - ["{{ _copier_python }}", -I, -c, 'print("{{ _copier_conf }}")']
 #_tasks:
 #  - '"{{ _copier_python }}" -I -c "import sys; sys.path.insert(0, r\"{{ _copier_conf.src_path }}\"); import runpy;
 #    runpy.run_module(\"tasks\", run_name=\"__main__\")"'
