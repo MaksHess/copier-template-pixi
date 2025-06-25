@@ -92,16 +92,16 @@ _tasks:
   - ["git", "tag", "0.0.0"]
 
   - command: ["gh", "repo", "create", "{{ project_slug }}", "--private", "--source=.", "--remote=upstream"]
-    when: "{{ _copier_conf.create_remote_repo }}"
+    when: "{{ _copier_conf.create_remote_repo == true }}"
 
   - command: ["git", "remote", "add", "origin", "{{ github_url }}"]
-    when: "{{ _copier_conf.create_remote_repo }}"
+    when: "{{ _copier_conf.create_remote_repo == true }}"
 
   - command: ["git", "branch", "-M", "main"]
-    when: "{{ _copier_conf.create_remote_repo }}"
+    when: "{{ _copier_conf.create_remote_repo == true }}"
 
   - command: ["git", "push", "-u", "origin", "main"]
-    when: "{{ _copier_conf.create_remote_repo }}"
+    when: "{{ _copier_conf.create_remote_repo == true }}"
   # - ["{{ _copier_python }}", -c, 'import os; print(os.getcwd()); print("{{ _copier_conf.scr_path }}")']
   #- ["{{ _copier_python }}", -I, -c, "import sys;", 'print("{{ _copier_conf }}")']
   #- ["{{ _copier_python }}", -I, -c, "import sys;", 'sys.path.insert(0, r"{{ _copier_conf.src_path }}");', "import runpy;", "runpy.run_module('task', run_name='__main__')"]
