@@ -12,7 +12,6 @@ python = ">={{ minimal_python_version.replace('py3', '3.') }}"
 [host-dependencies]
 pip = "*"
 setuptools = ">=61"
-setuptools-scm = "*"
 
 [feature.test.dependencies]
 pytest = ">=6"
@@ -26,7 +25,10 @@ test-coverage = "pytest --cov={{ project_slug_snake_case }} --cov-report=xml --c
 python-build = "*"
 twine = "*"
 wheel = "*"
+python-semantic-release = "*"
 [feature.build.tasks]
+check-version = "semantic-release -vv --noop version"
+bump-version = "semantic-release version --no-push --no-changelog"
 build-wheel = "python -m build --no-isolation ."
 check-wheel = "twine check dist/*"
 

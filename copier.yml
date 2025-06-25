@@ -18,6 +18,11 @@ project_slug_snake_case:
   default: "{{ project_slug.replace('-', '_') }}"
   when: false
 
+project_version:
+  type: str
+  default: 0.0.0
+  help: Enter a version number (0.0.0 for an empty template).
+
 project_short_description:
   type: str
   default: ''
