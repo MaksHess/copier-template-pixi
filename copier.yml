@@ -35,12 +35,12 @@ github_user:
 
 author_name:
   type: str
-  default: Max
+  default: Max Hess
   help: What is your name (used for package author)?
 
 author_email:
   type: str
-  default: ''
+  default: 'hess.max.timo@gmail.com'
   help: What is your email (used for package author)?
 
 github_url:
@@ -51,6 +51,11 @@ github_url:
     {% if not github_url.startswith('https://github.com/') or github_url.endswith('.git') %}
     The GitHub URL should start with `https://github.com/` and not end with `.git`, for example `https://github.com/LandoCalrissian/python-project`.
     {% endif %}
+
+create_remote_repo:
+  type: bool
+  default: true
+  help: Create a remote repo at {{ github_url }}? Fails if exists already.
 
 minimal_python_version:
   type: str
@@ -84,8 +89,19 @@ _tasks:
   - ["git", "init", "--initial-branch=main", "."]
   - ["git", "add", "*"]
   - ["git", "commit", "-m", "Initial project skeleton"]
-  - ["git", "tag", "0.0.1"]
-  - "{{ _copier_conf.answers_file }}"
+  - ["git", "tag", "0.0.0"]
+
+  - command: ["gh", "repo", "create", "{{ project_slug }}", "--private", "--source=.", "--remote=upstream"]
+    when: "{{ _copier_conf.create_remote_repo }}"
+
+  - command: ["git", "remote", "add", "origin", "{{ github_url }}"]
+    when: "{{ _copier_conf.create_remote_repo }}"
+
+  - command: ["git", "branch", "-M", "main"]
+    when: "{{ _copier_conf.create_remote_repo }}"
+
+  - command: ["git", "push", "-u", "origin", "main"]
+    when: "{{ _copier_conf.create_remote_repo }}"
   # - ["{{ _copier_python }}", -c, 'import os; print(os.getcwd()); print("{{ _copier_conf.scr_path }}")']
   #- ["{{ _copier_python }}", -I, -c, "import sys;", 'print("{{ _copier_conf }}")']
   #- ["{{ _copier_python }}", -I, -c, "import sys;", 'sys.path.insert(0, r"{{ _copier_conf.src_path }}");', "import runpy;", "runpy.run_module('task', run_name='__main__')"]

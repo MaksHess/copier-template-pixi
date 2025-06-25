@@ -28,8 +28,7 @@ wheel = "*"
 python-semantic-release = "*"
 [feature.build.tasks]
 check-version = "semantic-release -vv --noop version"
-bump-version = "semantic-release version --no-push --no-changelog"
-build-wheel = "python -m build --no-isolation ."
+bump-version-and-build = "semantic-release version --no-push --no-changelog"
 check-wheel = "twine check dist/*"
 
 [feature.lint.dependencies]
