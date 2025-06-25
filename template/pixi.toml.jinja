@@ -8,7 +8,7 @@ postinstall = "pip install --no-build-isolation --no-deps --disable-pip-version-
 [dependencies]
 python = ">={{ minimal_python_version.replace('py3', '3.') }}"
 
-[pypi.dependencies]
+[pypi-dependencies]
 "{{ project_slug_snake_case }}" = { path = ".", editable = true }
 
 [host-dependencies]
