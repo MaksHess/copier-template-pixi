@@ -9,7 +9,7 @@ postinstall = "pip install --no-build-isolation --no-deps --disable-pip-version-
 python = ">={{ minimal_python_version.replace('py3', '3.') }}"
 
 [pypi-dependencies]
-"{{ project_slug_snake_case }}" = { path = ".", editable = true }
+{{ project_slug_snake_case }} = { path = ".", editable = true }
 
 [host-dependencies]
 pip = "*"
@@ -80,7 +80,7 @@ twine = "*"
 wheel = "*"
 python-semantic-release = "*"
 [feature.build.tasks]
-check-version = "semantic-release -vv --noop version"
+check-version = "semantic-release -v --noop version"
 bump-version-and-build = "semantic-release version --no-push --no-changelog"
 check-wheel = "twine check dist/*"
 
