@@ -25,13 +25,18 @@ project_version:
 
 project_short_description:
   type: str
-  default: ''
+  default: ""
   help: Enter a short description.
 
 github_user:
   type: str
   default: MaksHess
   help: What is your GitHub username (used for CODEOWNERS)?
+
+github_name_with_owner:
+  type: str
+  default: "{{ github_user }}/{{ project_slug }}"
+  when: false
 
 author_name:
   type: str
@@ -40,13 +45,13 @@ author_name:
 
 author_email:
   type: str
-  default: 'hess.max.timo@gmail.com'
+  default: "hess.max.timo@gmail.com"
   help: What is your email (used for package author)?
 
 github_url:
   type: str
   help: What is the GitHub url of this project?
-  default: https://github.com/{{ github_user }}/{{ project_slug }}
+  default: https://github.com/{{ github_name_with_owner }}
   validator: >-
     {% if not github_url.startswith('https://github.com/') or github_url.endswith('.git') %}
     The GitHub URL should start with `https://github.com/` and not end with `.git`, for example `https://github.com/LandoCalrissian/python-project`.
@@ -84,12 +89,17 @@ add_autobump_workflow:
   default: true
 
 _tasks:
+  # Print Install Information
   - "pixi info"
   - "git --version"
+
+  # Initialize git repo & commit seleton
   - ["git", "init", "--initial-branch=main", "."]
   - ["git", "add", "*"]
   - ["git", "commit", "-m", "Initial project skeleton"]
-  - ["git", "tag", "0.0.0"]
+
+  # List remote repos in `.remote.repos.yml`
+  - ["gh", "repo", "list", "--json", "name", "-q", ".[] | .name", "|", "rg", "{{ project_slug }}", "-c", "--include-zero"]
 
   - command: ["gh", "repo", "create", "{{ project_slug }}", "--private", "--source=.", "--remote=upstream"]
     when: "{{ _copier_answers.create_remote_repo == true }}"
@@ -102,9 +112,3 @@ _tasks:
 
   - command: ["git", "push", "-u", "origin", "main"]
     when: "{{ _copier_answers.create_remote_repo == true }}"
-  # - ["{{ _copier_python }}", -c, 'import os; print(os.getcwd()); print("{{ _copier_conf.scr_path }}")']
-  #- ["{{ _copier_python }}", -I, -c, "import sys;", 'print("{{ _copier_conf }}")']
-  #- ["{{ _copier_python }}", -I, -c, "import sys;", 'sys.path.insert(0, r"{{ _copier_conf.src_path }}");', "import runpy;", "runpy.run_module('task', run_name='__main__')"]
-#_tasks:
-#  - '"{{ _copier_python }}" -I -c "import sys; sys.path.insert(0, r\"{{ _copier_conf.src_path }}\"); import runpy;
-#    runpy.run_module(\"tasks\", run_name=\"__main__\")"'

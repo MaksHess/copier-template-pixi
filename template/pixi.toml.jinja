@@ -15,6 +15,57 @@ python = ">={{ minimal_python_version.replace('py3', '3.') }}"
 pip = "*"
 setuptools = ">=61"
 
+
+[feature.git.tasks]
+create-empty-remote-repo = { cmd = [
+    "gh",
+    "repo",
+    "create",
+    "{{ project_slug }}",
+    "--private",
+    "--source=.",
+    "--remote=upstream",
+] }
+create-add-origin = { cmd = [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "{{ github_url }}",
+], depends-on = ["create-empty-remote-repo"] }
+create-switch-branch = { cmd = [
+    "git",
+    "branch",
+    "-M",
+    "main",
+], depends-on = [
+    "create-add-origin",
+] }
+create-remote-repo = { cmd = [
+    "git",
+    "push",
+    "-u",
+    "origin",
+    "main",
+], depends-on = [
+    "create-switch-branch",
+] }
+count-remote-repos = { cmd = [
+    "gh",
+    "repo",
+    "list",
+    "--json",
+    "name",
+    "-q",
+    ".[] | .name",
+    "|",
+    "rg",
+    "{{ project_slug }}",
+    "-c",
+    "--include-zero",
+] }
+
+
 [feature.test.dependencies]
 pytest = ">=6"
 pytest-cov = "*"
@@ -80,3 +131,4 @@ docs = ["docs"]
 {%- endif %}
 build = ["build"]
 lint = { features = ["lint"], no-default-feature = true }
+git = { features = ["git"], no-default-feature = true }
