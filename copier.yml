@@ -99,7 +99,7 @@ _tasks:
   - ["git", "commit", "-m", "Initial project skeleton"]
 
   # List remote repos in `.remote.repos.yml`
-  - ["gh", "repo", "list", "--json", "name", "-q", ".[] | .name", "|", "rg", "{{ project_slug }}", "-c", "--include-zero"]
+  # - ["gh", "repo", "list", "--json", "name", "-q", ".[] | .name", "|", "rg", "{{ project_slug }}", "-c", "--include-zero"]
 
   - command: ["gh", "repo", "create", "{{ project_slug }}", "--private", "--source=.", "--remote=upstream"]
     when: "{{ _copier_answers.create_remote_repo == true }}"
